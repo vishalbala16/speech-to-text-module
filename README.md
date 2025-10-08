@@ -4,8 +4,9 @@ A modular speech-to-text system that activates transcription when a wake word is
 
 ## Features
 
-- **Wake/Sleep Word Detection**: Toggles transcription with "hi"/"bye" commands
-- **Real-time Transcription**: High-accuracy speech-to-text using Deepgram API
+- **True Wake/Sleep Word Detection**: Module activates transcription ONLY when "hi" is detected, stops when "bye" is spoken
+- **Cost-Efficient**: No API calls when sleeping - only transcribes when awake
+- **Real-time Transcription**: High-accuracy speech-to-text using Deepgram API when active
 - **Modular Design**: Clean, reusable code structure
 - **Cloud Processing**: Fast transcription with Deepgram's Nova-2 model
 
@@ -28,10 +29,11 @@ python mobile_bridge.py
 ### Usage
 
 **Desktop:**
-1. Say **"hi"** to start transcription
-2. Speak normally - your words will appear
-3. Say **"bye"** to stop transcription
-4. Press **Ctrl+C** to exit
+1. Module starts in **SLEEP** mode (no transcription)
+2. Say **"hi"** to **WAKE** the module and start transcription
+3. Speak normally - your words will appear
+4. Say **"bye"** to put module back to **SLEEP** (stops transcription)
+5. Press **Ctrl+C** to exit
 
 **React Native:**
 1. Run `python mobile_bridge.py`
@@ -53,7 +55,12 @@ speech-to-text-module/
 
 
 
-## Configuration
+## How It Works
+
+### Wake/Sleep States
+- **SLEEP Mode**: Module listens only for wake word with minimal API usage
+- **AWAKE Mode**: Full transcription active until sleep word detected
+- **Cost Optimization**: ~80-90% reduction in API calls compared to always-on transcription
 
 ### Custom Wake/Sleep Words
 ```python

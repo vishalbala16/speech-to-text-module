@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Demo script for Speech-to-Text Module with Wake/Sleep Word Detection
+CORRECT Demo: Module only transcribes when AWAKE (between 'hi' and 'bye')
 """
 
 import time
@@ -12,36 +12,42 @@ def transcription_handler(text):
     timestamp = time.strftime("%H:%M:%S")
     
     if "[WAKE]" in text:
-        print(f"\n>>> {timestamp} - WAKE WORD DETECTED! Transcription started <<<")
+        print(f"\n[WAKE] [{timestamp}] {text}")
     elif "[SLEEP]" in text:
-        print(f">>> {timestamp} - SLEEP WORD DETECTED! Transcription stopped <<<\n")
+        print(f"[SLEEP] [{timestamp}] {text}\n")
     else:
-        print(f"[{timestamp}] {text}")
+        print(f"[TRANSCRIPT] [{timestamp}] {text}")
 
 def main():
-    print("=" * 60)
-    print("SPEECH-TO-TEXT MODULE DEMO")
-    print("=" * 60)
-    print(f"Wake word: '{WAKE_WORD}'")
-    print(f"Sleep word: '{SLEEP_WORD}'")
+    print("=" * 70)
+    print("CORRECT SPEECH-TO-TEXT MODULE - WAKE/SLEEP IMPLEMENTATION")
+    print("=" * 70)
+    print(f"Wake word: '{WAKE_WORD}' - Activates transcription")
+    print(f"Sleep word: '{SLEEP_WORD}' - Deactivates transcription")
+    print("[SLEEP] Module starts in SLEEP mode (no transcription)")
     print("Press Ctrl+C to exit")
-    print("=" * 60)
+    print("=" * 70)
     
-    # Initialize the speech module
+    # Initialize correct speech module
     stt_module = SpeechToTextModule()
     stt_module.set_transcription_callback(transcription_handler)
     
     try:
         stt_module.start_listening()
-        print(f"\nListening for wake word '{WAKE_WORD}'...")
+        print(f"\n[SLEEP] SLEEPING - Say '{WAKE_WORD}' to activate transcription...")
         
         while True:
-            time.sleep(1)
+            time.sleep(2)
+            status = stt_module.get_status()
+            if status == "AWAKE":
+                print(f"[AWAKE] Status: {status} - Transcribing... (say '{SLEEP_WORD}' to stop)")
+            else:
+                print(f"[SLEEP] Status: {status} - Waiting for '{WAKE_WORD}'...")
             
     except KeyboardInterrupt:
         print("\n\nShutting down...")
         stt_module.stop_listening()
-        print("Demo completed successfully!")
+        print("Demo completed!")
 
 if __name__ == "__main__":
     main()

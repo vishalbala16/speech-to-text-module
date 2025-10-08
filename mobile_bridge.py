@@ -17,7 +17,13 @@ class MobileBridge:
     def handle_transcription(self, text):
         """Send transcription to all connected mobile clients"""
         if self.clients:
-            message = json.dumps({"type": "transcription", "text": text})
+            # Include wake/sleep status
+            status = self.stt.get_status()
+            message = json.dumps({
+                "type": "transcription", 
+                "text": text,
+                "status": status
+            })
             asyncio.create_task(self.broadcast(message))
     
     async def broadcast(self, message):
