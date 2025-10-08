@@ -104,6 +104,10 @@ Edit `config.py` to customize:
 - Free tier: 200 hours of transcription
 - Internet connection required
 
+## Output Video
+
+https://github.com/user-attachments/assets/1328af11-5281-4d6d-83f8-471dc881423d
+
 ## License
 
 This project is open source and available under the MIT License.
